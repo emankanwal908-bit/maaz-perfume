@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maaz Safder Perfumes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --ink:     #0d0b09;
+  --gold:    #b89b6a;
+  --gold-lt: #d4bc8e;
+  --cream:   #f8f4ee;
+  --surface: #1a1612;
+  --muted:   #7a7068;
+  --border:  rgba(184,155,106,0.22);
+  --radius:  6px;
+  --nav-h:   64px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--ink);
+  color: var(--cream);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── PAGES ── */
+.page { display: none; animation: fadeUp .45s ease; }
+.page.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(1rem, 5vw, 3rem);
+  height: var(--nav-h);
+  background: rgba(13,11,9,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 300;
+  letter-spacing: .14em;
+  color: var(--gold-lt);
+  white-space: nowrap;
+}
+.logo span { font-style: italic; }
+.nav-links {
+  display: flex; gap: clamp(.6rem, 2vw, 2rem);
+  list-style: none;
+}
+.nav-links a {
+  font-size: .75rem; letter-spacing: .1em;
+  text-transform: uppercase; text-decoration: none;
+  color: var(--muted); transition: color .25s;
+  padding: .4rem 0; border-bottom: 1px solid transparent;
+  cursor: pointer;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--gold-lt);
+  border-color: var(--gold);
+}
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.hamburger span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--gold-lt); transition: all .3s;
+}
+.mobile-menu {
+  display: none; position: fixed; inset: var(--nav-h) 0 0 0; z-index: 99;
+  background: rgba(13,11,9,.97);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 2.5rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 300;
+  letter-spacing: .12em; color: var(--cream);
+  text-decoration: none; cursor: pointer;
+  transition: color .2s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+
+/* ── HERO ── */
+.hero {
+  min-height: calc(100vh - var(--nav-h));
+  display: grid; place-items: center;
+  text-align: center;
+  padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 2rem);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 40%, rgba(184,155,106,.09) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 30% at 80% 20%, rgba(184,155,106,.05) 0%, transparent 60%);
+}
+.hero-eyebrow {
+  font-size: .68rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1.4rem;
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.6rem, 8vw, 6rem);
+  font-weight: 300; line-height: 1.08;
+  margin-bottom: 1.2rem;
+}
+.hero h1 em { font-style: italic; color: var(--gold-lt); }
+.hero-sub {
+  max-width: 440px; margin: 0 auto 2.4rem;
+  font-size: clamp(.85rem, 2vw, 1rem);
+  color: var(--muted); line-height: 1.7;
+}
+.btn {
+  display: inline-block; padding: .85rem 2.4rem;
+  border: 1px solid var(--gold);
+  color: var(--gold); text-decoration: none;
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+  cursor: pointer; background: transparent;
+  transition: background .25s, color .25s;
+  font-family: 'Inter', sans-serif;
+}
+.btn:hover { background: var(--gold); color: var(--ink); }
+.btn-solid {
+  background: var(--gold); color: var(--ink);
+}
+.btn-solid:hover { background: var(--gold-lt); }
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
+  gap: .5rem; opacity: .45;
+}
+.hero-scroll span { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; }
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+/* ── SECTION BASE ── */
+.section {
+  padding: clamp(4rem, 10vw, 7rem) clamp(1rem, 5vw, 3rem);
+  max-width: 1200px; margin: 0 auto;
+}
+.section-label {
+  font-size: .65rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-weight: 300; line-height: 1.15;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+.section-title em { font-style: italic; color: var(--gold-lt); }
+.divider {
+  width: 48px; height: 1px;
+  background: var(--gold); margin: 1rem 0 2.5rem;
+}
+
+/* ── BENTO GRID (WHY US) ── */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.bento-item {
+  background: var(--ink);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  transition: background .3s;
+}
+.bento-item:hover { background: var(--surface); }
+.bento-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+.bento-item h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 400;
+  margin-bottom: .6rem; color: var(--gold-lt);
+}
+.bento-item p { font-size: .85rem; color: var(--muted); line-height: 1.7; }
+
+/* ── COLLECTION GRID ── */
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1.5rem;
+}
+.product-card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  overflow: hidden; cursor: pointer;
+  transition: transform .3s, border-color .3s;
+}
+.product-card:hover { transform: translateY(-4px); border-color: var(--gold); }
+.product-img {
+  height: 300px; background: var(--ink);
+  position: relative; overflow: hidden;
+}
+.product-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .5s ease, opacity .4s;
+  filter: brightness(.88);
+}
+.product-card:hover .product-img img { transform: scale(1.06); }
+.product-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(13,11,9,.65) 0%, transparent 55%);
+}
+.img-skeleton {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,#1a1612 25%,#231f1a 50%,#1a1612 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.product-badge {
+  position: absolute; top: 1rem; right: 1rem; z-index: 2;
+  font-size: .6rem; letter-spacing: .15em; text-transform: uppercase;
+  background: var(--gold); color: var(--ink);
+  padding: .2rem .6rem;
+}
+.product-info { padding: 1.2rem 1.4rem 1.4rem; }
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 400;
+  margin-bottom: .3rem; color: var(--cream);
+}
+.product-note { font-size: .75rem; color: var(--muted); margin-bottom: .9rem; line-height: 1.5; }
+.product-footer { display: flex; align-items: center; justify-content: space-between; }
+.product-price { font-size: 1rem; color: var(--gold); }
+.product-btn {
+  font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); border: 1px solid var(--border);
+  padding: .3rem .8rem; cursor: pointer; background: transparent;
+  font-family: 'Inter', sans-serif; transition: all .2s;
+}
+.product-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+@media(max-width: 720px) { .about-grid { grid-template-columns: 1fr; } }
+.about-visual {
+  aspect-ratio: 4/5;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+.about-visual::before {
+  content: '';
+  position: absolute; inset: -8px;
+  border: 1px solid var(--border);
+  pointer-events: none;
+  z-index: 1;
+}
+.about-body p {
+  font-size: .92rem; color: var(--muted);
+  line-height: 1.85; margin-bottom: 1.2rem;
+}
+.stats-row {
+  display: flex; gap: 2rem; flex-wrap: wrap;
+  margin: 2rem 0 2.4rem;
+}
+.stat { flex: 1; min-width: 80px; }
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem; font-weight: 300; color: var(--gold);
+  line-height: 1;
+}
+.stat-label { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .3rem; }
+
+/* ── REVIEWS ── */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 1.5rem;
+}
+.review-card {
+  border: 1px solid var(--border);
+  padding: 1.8rem;
+  background: var(--surface);
+  position: relative;
+}
+.stars { color: var(--gold); font-size: .85rem; margin-bottom: .9rem; }
+.review-text {
+  font-size: .875rem; line-height: 1.8;
+  color: #bdb5aa; margin-bottom: 1.2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1rem;
+}
+.reviewer { display: flex; align-items: center; gap: .9rem; }
+.avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--gold); display: flex; align-items: center; justify-content: center;
+  font-size: .75rem; font-weight: 600; color: var(--ink);
+  flex-shrink: 0;
+}
+.reviewer-name { font-size: .85rem; color: var(--cream); }
+.reviewer-loc { font-size: .72rem; color: var(--muted); }
+.quote-mark {
+  position: absolute; top: 1rem; right: 1.2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4rem; color: var(--gold); opacity: .12;
+  line-height: 1; pointer-events: none;
+}
+
+/* ── CONTACT ── */
+.contact-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+@media(max-width: 720px) { .contact-wrap { grid-template-columns: 1fr; } }
+.contact-info { }
+.contact-info p { font-size: .88rem; color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
+.info-item { display: flex; gap: 1rem; margin-bottom: 1.2rem; align-items: flex-start; }
+.info-icon { font-size: 1rem; margin-top: .1rem; color: var(--gold); }
+.info-text { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+.info-text strong { color: var(--cream); display: block; margin-bottom: .2rem; font-weight: 500; }
+.form { display: flex; flex-direction: column; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: .4rem; }
+.field label { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+.field input, .field textarea, .field select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--cream);
+  padding: .8rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: .88rem;
+  outline: none;
+  transition: border-color .2s;
+  width: 100%;
+  border-radius: var(--radius);
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color: var(--gold);
+}
+.field select option { background: var(--surface); }
+.field textarea { resize: vertical; min-height: 120px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media(max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+#form-msg {
+  font-size: .82rem; padding: .8rem 1rem;
+  border-radius: var(--radius); display: none; margin-top: .5rem;
+}
+#form-msg.success { background: rgba(184,155,106,.12); color: var(--gold); border: 1px solid var(--border); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2.5rem clamp(1rem, 5vw, 3rem);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+footer .logo { font-size: 1rem; }
+footer p { font-size: .72rem; color: var(--muted); }
+
+/* ── MOBILE NAV TOGGLE ── */
+@media(max-width: 680px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><span>Maaz</span> Perfumes</div>
+  <ul class="nav-links">
+    <li><a onclick="show('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="show('collection')" id="nav-collection">Collection</a></li>
+    <li><a onclick="show('about')" id="nav-about">About</a></li>
+    <li><a onclick="show('reviews')" id="nav-reviews">Reviews</a></li>
+    <li><a onclick="show('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="show('home');toggleMenu()">Home</a>
+  <a onclick="show('collection');toggleMenu()">Collection</a>
+  <a onclick="show('about');toggleMenu()">About</a>
+  <a onclick="show('reviews');toggleMenu()">Reviews</a>
+  <a onclick="show('contact');toggleMenu()">Contact</a>
+</div>
+
+<!-- ══════════ HOME ══════════ -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div style="position:absolute;inset:0;z-index:0;overflow:hidden;">
+      <img src="https://images.unsplash.com/photo-1541643600914-78b084683702?w=1600&q=80&fit=crop" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.22;filter:grayscale(20%);" loading="eager">
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,11,9,.45) 0%,rgba(13,11,9,.88) 100%);"></div>
+    </div>
+    <div style="position:relative;z-index:1;">
+      <p class="hero-eyebrow">Maaz Safder · Est. 2023</p>
+      <h1>Where Scent<br>Becomes <em>Story</em></h1>
+      <p class="hero-sub">Handcrafted luxury fragrances built for those who understand that the finest things in life are never rushed.</p>
+      <button class="btn" onclick="show('collection')">Explore Collection</button>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+
+  <!-- Why Choose Us -->
+  <div class="section">
+    <p class="section-label">Why Us</p>
+    <h2 class="section-title">Crafted with <em>intent</em></h2>
+    <div class="bento">
+      <div class="bento-item">
+        <div class="bento-icon">🌹</div>
+        <h3>Premium Ingredients</h3>
+        <p>Sourced from the world's finest oud houses in the Middle East and floral estates in France.</p>
+      </div>
+      <div class="bento-item">
+        <div class="bento-icon">⏳</div>
+        <h3>Long-Lasting Sillage</h3>
+        <p>Our extrait formulas carry 30–35% concentration — built to last 12+ hours on skin.</p>
+      </div>
+      <div class="bento-item">
+        <div class="bento-icon">🎁</div>
+        <h3>Elegant Packaging</h3>
+        <p>Every bottle arrives in hand-finished black boxes, gift-ready from the moment you order.</p>
+      </div>
+      <div class="bento-item">
+        <div class="bento-icon">✦</div>
+        <h3>Exclusive Formulas</h3>
+        <p>No mass production. Every batch is small, controlled, and formulated by Maaz personally.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured -->
+  <div class="section" style="padding-top:0">
+    <p class="section-label">Bestsellers</p>
+    <h2 class="section-title">Fan <em>favourites</em></h2>
+    <div class="collection-grid">
+      <div class="product-card" onclick="show('collection')">
+        <div class="product-img">
+          <div class="img-skeleton" id="sk1"></div>
+          <img src="./images/IMG_2013_1.jpeg" alt="Oud Al Layl" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;" onload="this.style.opacity='1';document.getElementById('sk1').style.display='none';">
+          <div class="product-img-overlay"></div>
+          <span class="product-badge">Bestseller</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Oud Al Layl</div>
+          <div class="product-note">Dark Oud · Amber · Smoky Musk</div>
+          <div class="product-price">PKR 4,500</div>
+        </div>
+      </div>
+      <div class="product-card" onclick="show('collection')">
+        <div class="product-img">
+          <div class="img-skeleton" id="sk2"></div>
+          <img src="./images/WhatsApp_Image_2025-03-22_at_5.18.50_AM.jpeg" alt="Rose Soir" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;" onload="this.style.opacity='1';document.getElementById('sk2').style.display='none';">
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Rose Soir</div>
+          <div class="product-note">Turkish Rose · Sandalwood · Vanilla</div>
+          <div class="product-price">PKR 3,800</div>
+        </div>
+      </div>
+      <div class="product-card" onclick="show('collection')">
+        <div class="product-img">
+          <div class="img-skeleton" id="sk3"></div>
+          <img src="./images/WhatsApp_Image_2025-03-22_at_5.18.58_AM.jpeg" alt="Azul Nuit" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;" onload="this.style.opacity='1';document.getElementById('sk3').style.display='none';">
+          <div class="product-img-overlay"></div>
+          <span class="product-badge">New</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Azul Nuit</div>
+          <div class="product-note">Aquatic · Bergamot · Cedar</div>
+          <div class="product-price">PKR 3,200</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ COLLECTION ══════════ -->
+<div class="page" id="page-collection">
+  <div class="section" style="padding-top: calc(var(--nav-h) + 3rem)">
+    <p class="section-label">Our Range</p>
+    <h2 class="section-title">The Full <em>Collection</em></h2>
+    <div class="collection-grid">
+      <div class="product-card">
+        <div class="product-img">
+          <div class="img-skeleton" id="c1"></div>
+          <img src="./images/WhatsApp_Image_2025-03-22_at_5.18.50_AM.jpeg" alt="Oud Al Layl" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;" onload="this.style.opacity='1';document.getElementById('c1').style.display='none';">
+          <div class="product-img-overlay"></div>
+          <span class="product-badge">Bestseller</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Oud Al Layl</div>
+          <div class="product-note">Dark Oud · Amber · Smoky Musk</div>
+          <div class="product-footer"><div class="product-price">PKR 4,500</div><button class="product-btn" onclick="event.stopPropagation();show('contact')">Order →</button></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <div class="img-skeleton" id="c2"></div>
+          <img src="./images/Sports_Banner.png" alt="Rose Soir" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;" onload="this.style.opacity='1';document.getElementById('c2').style.display='none';">
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Rose Soir</div>
+          <div class="product-note">Turkish Rose · Sandalwood · Vanilla</div>
+          <div class="product-footer"><div class="product-price">PKR 3,800</div><button class="product-btn" onclick="event.stopPropagation();show('contact')">Order →</button></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <div class="img-skeleton" id="c3"></div>
+          <img src="./images/PeachCrush2.jpeg"Azul Nuit" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;" onload="this.style.opacity='1';document.getElementById('c3').style.display='none';">
+          <div class="product-img-overlay"></div>
+          <span class="product-badge">New</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Azul Nuit</div>
+          <div class="product-note">Aquatic · Bergamot · Cedar</div>
+          <div class="product-footer"><div class="product-price">PKR 3,200</div><button class="product-btn" onclick="event.stopPropagation();show('contact')">Order →</button></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <div class="img-skeleton" id="c4"></div>
+          <img src="./images//Women_Collection.png" alt="Vetiver Royale" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;" onload="this.style.opacity='1';document.getElementById('c4').style.display='none';">
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Vetiver Royale</div>
+          <div class="product-note">Vetiver · Green Tea · White Musk</div>
+          <div class="product-footer"><div class="product-price">PKR 4,000</div><button class="product-btn" onclick="event.stopPropagation();show('contact')">Order →</button></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <div class="img-skeleton" id="c5"></div>
+          <img src="./images/M1_NOTES.png" alt="Ambre Noir" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;" onload="this.style.opacity='1';document.getElementById('c5').style.display='none';">
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Ambre Noir</div>
+          <div class="product-note">Black Amber · Leather · Tonka</div>
+          <div class="product-footer"><div class="product-price">PKR 5,200</div><button class="product-btn" onclick="event.stopPropagation();show('contact')">Order →</button></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <div class="img-skeleton" id="c6"></div>
+          <img src="./images/W2_NOTES.png" alt="Maaz Signature" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;" onload="this.style.opacity='1';document.getElementById('c6').style.display='none';">
+          <div class="product-img-overlay"></div>
+          <span class="product-badge">Limited</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Maaz Signature</div>
+          <div class="product-note">Oud · Rose · Saffron · Musk</div>
+          <div class="product-footer"><div class="product-price">PKR 7,500</div><button class="product-btn" onclick="event.stopPropagation();show('contact')">Order →</button></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:3rem; text-align:center">
+      <button class="btn" onclick="show('contact')">Order a Fragrance →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ABOUT ══════════ -->
+<div class="page" id="page-about">
+  <div class="section" style="padding-top: calc(var(--nav-h) + 3rem)">
+    <div class="about-grid">
+      <div class="about-visual" style="overflow:hidden;">
+        <img src="./images/maaz safdar.jpeg" alt="Perfume crafting" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="about-body">
+        <p class="section-label">Our Story</p>
+        <h2 class="section-title" style="margin-bottom:0">The man behind <em>the scent</em></h2>
+        <div class="divider"></div>
+        <p>Maaz Safder grew up surrounded by the rich fragrance culture of Pakistan — where oud burners light homes at dawn and attar is as much a ritual as it is a luxury.</p>
+        <p>What started as a personal obsession became a craft: hand-blending, testing, and perfecting formulas that honour Eastern tradition while speaking the language of modern luxury.</p>
+        <p>Every Maaz Perfumes bottle is a small-batch creation. No shortcuts. No synthetic filler. Just ingredients that respect your skin and your story.</p>
+        <div class="stats-row">
+          <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Formulas Tested</div></div>
+          <div class="stat"><div class="stat-num">12</div><div class="stat-label">Active Scents</div></div>
+          <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Happy Customers</div></div>
+        </div>
+        <button class="btn btn-solid" onclick="show('collection')">Shop the Collection</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ REVIEWS ══════════ -->
+<div class="page" id="page-reviews">
+  <div class="section" style="padding-top: calc(var(--nav-h) + 3rem)">
+    <p class="section-label">Customer Love</p>
+    <h2 class="section-title">What people <em>say</em></h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <div class="review-text">Oud Al Layl is unlike anything I've smelled locally. Rich, deep, and it lasted on my shirt until the next morning.</div>
+        <div class="reviewer"><div class="avatar">AK</div><div><div class="reviewer-name">Ahmed Khalid</div><div class="reviewer-loc">Karachi, PK</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <div class="review-text">Gifted Rose Soir to my wife and she hasn't stopped wearing it. The packaging alone looked like it cost triple the price.</div>
+        <div class="reviewer"><div class="avatar">ZB</div><div><div class="reviewer-name">Zain Butt</div><div class="reviewer-loc">Lahore, PK</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <div class="review-text">Maaz Signature is my daily driver now. Saffron + oud combo is next level. People stop me to ask what I'm wearing.</div>
+        <div class="reviewer"><div class="avatar">FR</div><div><div class="reviewer-name">Farhan Raza</div><div class="reviewer-loc">Islamabad, PK</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <div class="review-text">Ordered Azul Nuit for summer and it's perfect — fresh but not boring. Delivery was fast and packed beautifully.</div>
+        <div class="reviewer"><div class="avatar">SA</div><div><div class="reviewer-name">Sara Aslam</div><div class="reviewer-loc">Karachi, PK</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★☆</div>
+        <div class="review-text">Ambre Noir is bold but wearable — my kind of winter scent. Maaz really understands the oud culture.</div>
+        <div class="reviewer"><div class="avatar">HN</div><div><div class="reviewer-name">Hamza Nawaz</div><div class="reviewer-loc">Multan, PK</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <div class="review-text">I've been buying from international brands for years. Maaz Perfumes matches the quality at half the price. Will never go back.</div>
+        <div class="reviewer"><div class="avatar">OU</div><div><div class="reviewer-name">Omar Umer</div><div class="reviewer-loc">Dubai, UAE</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CONTACT ══════════ -->
+<div class="page" id="page-contact">
+  <div class="section" style="padding-top: calc(var(--nav-h) + 3rem)">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Order or <em>enquire</em></h2>
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <p>Whether you want to place an order, ask about a fragrance, or arrange a bulk gift order — we're a message away.</p>
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div class="info-text"><strong>Based in</strong>Karachi, Pakistan</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📱</div>
+          <div class="info-text"><strong>WhatsApp</strong>+92 300 0000000</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📧</div>
+          <div class="info-text"><strong>Email</strong>hello@maazperfumes.com</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🚚</div>
+          <div class="info-text"><strong>Delivery</strong>Nationwide · Express available</div>
+        </div>
+      </div>
+      <div>
+        <form class="form" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="field">
+              <label>Your Name</label>
+              <input type="text" placeholder="e.g. Ahmed Khan" required>
+            </div>
+            <div class="field">
+              <label>Phone / WhatsApp</label>
+              <input type="tel" placeholder="+92 3XX XXXXXXX" required>
+            </div>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" placeholder="you@email.com">
+          </div>
+          <div class="field">
+            <label>Interested In</label>
+            <select>
+              <option>Oud Al Layl — PKR 4,500</option>
+              <option>Rose Soir — PKR 3,800</option>
+              <option>Azul Nuit — PKR 3,200</option>
+              <option>Vetiver Royale — PKR 4,000</option>
+              <option>Ambre Noir — PKR 5,200</option>
+              <option>Maaz Signature — PKR 7,500</option>
+              <option>Bulk / Gift Order</option>
+              <option>Just browsing / General enquiry</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Message</label>
+            <textarea placeholder="Tell us anything — delivery city, quantity, special requests…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-solid" style="align-self:flex-start; padding:.85rem 2.4rem; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; cursor:pointer; border:1px solid var(--gold); font-family:'Inter',sans-serif;">
+            Send Message
+          </button>
+          <div id="form-msg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo"><span>Maaz</span> Perfumes</div>
+  <p>© 2025 Maaz Safder Perfumes · Karachi, Pakistan</p>
+</footer>
+
+<script>
+// ── PAGE ROUTER ──
+function show(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  const navEl = document.getElementById('nav-' + page);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── MOBILE MENU ──
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── FORM SUBMIT ──
+function submitForm(e) {
+  e.preventDefault();
+  const msg = document.getElementById('form-msg');
+  msg.style.display = 'block';
+  msg.className = 'success';
+  msg.textContent = '✓ Message sent! We\'ll reach out within a few hours on WhatsApp or email.';
+  e.target.reset();
+}
+</script>
+</body>
+</html>
